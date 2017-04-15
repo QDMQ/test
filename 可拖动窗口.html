@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body{
+            position: relative;
+        }
+        #box{
+            width: 400px;
+            height: 300px;
+            border:2px solid gainsboro;
+            background: lightsteelblue;
+            position: absolute;
+            left:150px;
+            top:150px;
+        }
+        #title{
+            width :390px;
+            height:24px;
+            margin-left: 5px;
+            background: lightsteelblue;
+        }
+        #title_close{
+            position: absolute;
+            left:380px;
+            font-weight: bold;
+            color: red;
+        }
+        #content{
+            width: 390px;
+            height: 262px;
+            margin-left: 3px;
+            margin-top: 3px;
+            background: white;
+            border: 2px solid gainsboro;
+
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+    <div id="title">可拖拽
+        <span id="title_close">X</span>
+    </div>
+    <div id="content">&nbsp;内容......</div>
+</div>
+<script>
+    //业务逻辑
+    //一定是我们触发了鼠标按下事件才能拖动
+    var otitle=document.getElementById("title");
+    var obox=document.getElementById("box");
+    document.getElementById("title_close").onclick=function(){
+        document.getElementById("box").style.display="none";
+    }
+
+    function getStyle(obj,attr){
+        if(obj.currentStyle){
+            return obj.currentStyle[attr];
+        }else{
+            return getComputedStyle(obj,false)[attr];
+        }
+    }
+
+    var flag;
+    var currentX=0;
+    var currentY=0;
+    var left=parseInt(getStyle(obox,"left"));
+    var otop=parseInt(getStyle(obox,"top"));
+
+    title.onmousedown=function(event){
+        //说明你可以移动了
+        flag=true;
+        //获取你当前的点击的位置
+        var e=event?event:window.event;
+        currentX=e.clientX;
+        currentY=e.clientY;
+    }
+
+    //一旦松开，就不能拖动了
+    document.onmouseup=function(){
+        flag=false;
+    }
+
+    document.onmousemove=function(event){
+        var e=event?event:window.event;
+        if(flag){
+            var nowX=e.clientX;
+            var nowY=e.clientY;
+
+            var disX=nowX-currentX;
+            var disY=nowY-currentY;
+
+            obox.style.left=left+disX+"px";
+            obox.style.top=otop+disY+"px";
+        }
+    }
+</script>
+</body>
+</html>
